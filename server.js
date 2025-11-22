@@ -1,7 +1,7 @@
 // COMP3810SEF Group Project - Note Taking App
-// Built by combining Lab05–Lab10 patterns
+// Render-ready version
 
-require('dotenv').config();   // Load environment variables from .env
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,8 +13,8 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const MONGODB_URI = process.env.MONGODB_URI;   // MongoDB URI from .env
-const PORT = process.env.PORT || 8099;         // Port from .env or fallback
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT; // Render injects PORT automatically
 
 // ===== Middleware =====
 app.set('view engine', 'ejs');
@@ -23,31 +23,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Cookie-session (Lab08 style)
 app.use(session({
   secret: process.env.SECRETKEY || 'SECRETKEY',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // set secure:true only if running HTTPS
+  cookie: { secure: false }
 }));
 
-
-
-// ===== MongoDB Connection (Lab05 style) =====
+// ===== MongoDB Connection =====
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error(err));
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// ===== Mongoose Schemas (Lab06–07 style) =====
+// ===== Schemas =====
 const userSchema = new mongoose.Schema({
   userUUID: String,
   userName: String,
   userEmail: String,
-  userPassword: String,   // hashed password for local login
+  userPassword: String,
   userAuthenticateType: String,
   googleId: String
 });
-
 const User = mongoose.model('User', userSchema);
 
 const noteSchema = new mongoose.Schema({
@@ -58,30 +54,38 @@ const noteSchema = new mongoose.Schema({
 });
 const Note = mongoose.model('Note', noteSchema);
 
-// ===== Passport Google OAuth (Lab10 style) =====
+// ===== Passport Google OAuth =====
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || "",
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-  callbackURL: "http://localhost:8099/auth/google/callback"
+  callbackURL: process.env.GOOGLE_CALLBACK_URL || "/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
-  let user = await User.findOne({ googleId: profile.id });
-  if (!user) {
-    user = new User({
-      userUUID: profile.id,
-      userName: profile.displayName,
-      userEmail: profile.emails[0].value,
-      userAuthenticateType: "google",
-      googleId: profile.id
-    });
-    await user.save();
+  try {
+    let user = await User.findOne({ googleId: profile.id });
+    if (!user) {
+      user = new User({
+        userUUID: profile.id,
+        userName: profile.displayName,
+        userEmail: profile.emails[0].value,
+        userAuthenticateType: "google",
+        googleId: profile.id
+      });
+      await user.save();
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
   }
-  return done(null, user);
 }));
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  done(null, user);
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 app.use(passport.initialize());
@@ -94,28 +98,15 @@ function isLoggedIn(req, res, next) {
 }
 
 // ===== Routes =====
+app.get('/login', (req, res) => res.render('login'));
+app.get('/signup', (req, res) => res.render('signup'));
 
-// Login page
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-// Signup page
-app.get('/signup', (req, res) => {
-  res.render('signup');
-});
-
-// Local signup
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
-
   let existingUser = await User.findOne({ userEmail: email });
-  if (existingUser) {
-    return res.send("User already exists. Please login.");
-  }
+  if (existingUser) return res.send("User already exists. Please login.");
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const newUser = new User({
     userUUID: new mongoose.Types.ObjectId().toString(),
     userName: name,
@@ -123,26 +114,18 @@ app.post('/signup', async (req, res) => {
     userPassword: hashedPassword,
     userAuthenticateType: "local"
   });
-
   await newUser.save();
   res.redirect('/login');
 });
 
-// Local login
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   const user = await User.findOne({ userEmail: email });
-  if (!user) {
-    return res.send("No user found. Please sign up.");
-  }
+  if (!user) return res.send("No user found. Please sign up.");
 
   const match = await bcrypt.compare(password, user.userPassword);
-  if (!match) {
-    return res.send("Invalid password.");
-  }
+  if (!match) return res.send("Invalid password.");
 
-  // Save user in session
   req.session.user = user;
   res.redirect('/homepage');
 });
@@ -159,14 +142,14 @@ app.get('/auth/google/callback',
   })
 );
 
-// Home page with notes
+// Homepage
 app.get('/homepage', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
   res.render('homepage', { user: currentUser, notes });
 });
 
-// Add note
+// Notes CRUD
 app.post('/notes', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const note = new Note({
@@ -178,7 +161,6 @@ app.post('/notes', isLoggedIn, async (req, res) => {
   res.redirect('/homepage');
 });
 
-// Edit note
 app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
   await Note.findByIdAndUpdate(req.params.id, {
     noteContent: req.body.noteContent,
@@ -187,15 +169,15 @@ app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
   res.redirect('/homepage');
 });
 
-// Delete note
 app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
   await Note.findByIdAndDelete(req.params.id);
   res.redirect('/homepage');
 });
 
 // Logout
-app.get('/logout', (req, res) => {
-  req.logout(() => {
+app.get('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) return next(err);
     req.session = null;
     res.redirect('/login');
   });
@@ -203,6 +185,5 @@ app.get('/logout', (req, res) => {
 
 // ===== Start Server =====
 app.listen(PORT, () => {
-  console.log(`🚀 App running at http://localhost:${PORT}`);
+  console.log(`🚀 App running on port ${PORT}`);
 });
-

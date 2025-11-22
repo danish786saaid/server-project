@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Notes</title>
+  <title>Homepage</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Welcome, <%= user.userName %></h1>
+  <div class="container">
+    <h1>Welcome, <%= user.userName %></h1>
 
-  <!-- Add note bar -->
-  <form action="/notes" method="POST">
-    <input type="text" name="noteContent" placeholder="Type a note here" required>
-    <button type="submit">Add Note</button>
-  </form>
+    <form method="POST" action="/notes">
+      <textarea name="noteContent" placeholder="Write a note..." required></textarea>
+      <button type="submit">Add note</button>
+    </form>
 
-  <!-- List notes -->
-  <ul>
-    <% notes.forEach(note => { %>
-      <li>
-        <form action="/notes/edit/<%= note._id %>" method="POST">
-          <input type="text" name="noteContent" value="<%= note.noteContent %>">
-          <button type="submit">Update</button>
-        </form>
-        <a href="/notes/delete/<%= note._id %>">Delete</a>
-      </li>
-    <% }) %>
-  </ul>
+    <ul class="notes">
+      <% notes.forEach(function(note) { %>
+        <li>
+          <form method="POST" action="/notes/edit/<%= note._id %>">
+            <textarea name="noteContent"><%= note.noteContent %></textarea>
+            <button type="submit">Save</button>
+            <a href="/notes/delete/<%= note._id %>">Delete</a>
+          </form>
+          <small>Last modified: <%= new Date(note.noteLastModified).toLocaleString() %></small>
+        </li>
+      <% }) %>
+    </ul>
 
-  <a href="/logout">Logout</a>
+    <a href="/logout">Logout</a>
+  </div>
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 // COMP3810SEF Group Project - Note Taking App
 // Built by combining Lab05–Lab10 patterns
 
-require('dotenv').config();   // Load environment variables from .env
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,59 +10,41 @@ const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // ✅ bcryptjs for Render
 
 const app = express();
-const MONGODB_URI = process.env.MONGODB_URI;   // MongoDB URI from .env
-const PORT = process.env.PORT || 8099;         // Port from .env or fallback
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 8099;
 
-// ===== Middleware =====
+// ===== Views & static =====
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Cookie-session (Lab08 style)
+// ===== Sessions =====
 app.use(session({
   secret: process.env.SECRETKEY || 'SECRETKEY',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // set secure:true only if running HTTPS
+  cookie: { secure: false }
 }));
 
-
-
-// ===== MongoDB Connection (Lab05 style) =====
+// ===== MongoDB =====
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch(err => console.error(err));
 
-// ===== Mongoose Schemas (Lab06–07 style) =====
-const userSchema = new mongoose.Schema({
-  userUUID: String,
-  userName: String,
-  userEmail: String,
-  userPassword: String,   // hashed password for local login
-  userAuthenticateType: String,
-  googleId: String
-});
+// ===== Models =====
+const User = require('./models/User');
+const Note = require('./models/Note');
 
-const User = mongoose.model('User', userSchema);
-
-const noteSchema = new mongoose.Schema({
-  noteUUID: String,
-  noteContent: String,
-  noteUserUUID: String,
-  noteLastModified: { type: Date, default: Date.now }
-});
-const Note = mongoose.model('Note', noteSchema);
-
-// ===== Passport Google OAuth (Lab10 style) =====
+// ===== Google OAuth =====
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || "",
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-  callbackURL: "http://localhost:8099/auth/google/callback"
+  callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:8099/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
   let user = await User.findOne({ googleId: profile.id });
   if (!user) {
@@ -87,35 +69,23 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ===== Middleware to protect routes =====
+// ===== Auth guard =====
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() || req.session.user) return next();
   res.redirect('/login');
 }
 
 // ===== Routes =====
+app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
+app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up' }));
 
-// Login page
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-// Signup page
-app.get('/signup', (req, res) => {
-  res.render('signup');
-});
-
-// Local signup
+// Signup
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
-
   let existingUser = await User.findOne({ userEmail: email });
-  if (existingUser) {
-    return res.send("User already exists. Please login.");
-  }
+  if (existingUser) return res.send("User already exists. Please login.");
 
   const hashedPassword = await bcrypt.hash(password, 10);
-
   const newUser = new User({
     userUUID: new mongoose.Types.ObjectId().toString(),
     userName: name,
@@ -123,50 +93,35 @@ app.post('/signup', async (req, res) => {
     userPassword: hashedPassword,
     userAuthenticateType: "local"
   });
-
   await newUser.save();
   res.redirect('/login');
 });
 
-// Local login
+// Login
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   const user = await User.findOne({ userEmail: email });
-  if (!user) {
-    return res.send("No user found. Please sign up.");
-  }
-
+  if (!user) return res.send("No user found. Please sign up.");
   const match = await bcrypt.compare(password, user.userPassword);
-  if (!match) {
-    return res.send("Invalid password.");
-  }
-
-  // Save user in session
+  if (!match) return res.send("Invalid password.");
   req.session.user = user;
   res.redirect('/homepage');
 });
 
 // Google login
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/auth/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/homepage',
-    failureRedirect: '/login'
-  })
+  passport.authenticate('google', { successRedirect: '/homepage', failureRedirect: '/login' })
 );
 
-// Home page with notes
+// Homepage
 app.get('/homepage', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
-  res.render('homepage', { user: currentUser, notes });
+  res.render('homepage', { title: 'Homepage', user: currentUser, notes });
 });
 
-// Add note
+// Notes CRUD
 app.post('/notes', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const note = new Note({
@@ -178,7 +133,6 @@ app.post('/notes', isLoggedIn, async (req, res) => {
   res.redirect('/homepage');
 });
 
-// Edit note
 app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
   await Note.findByIdAndUpdate(req.params.id, {
     noteContent: req.body.noteContent,
@@ -187,7 +141,6 @@ app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
   res.redirect('/homepage');
 });
 
-// Delete note
 app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
   await Note.findByIdAndDelete(req.params.id);
   res.redirect('/homepage');
@@ -201,8 +154,6 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// ===== Start Server =====
-app.listen(PORT, () => {
-  console.log(`🚀 App running at http://localhost:${PORT}`);
-});
+// ===== Start =====
+app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));
 

@@ -1,0 +1,75 @@
+/* Centered screen layout and basic styling */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;       /* vertical center */
+  justify-content: center;   /* horizontal center */
+  margin: 0;
+  background: #f5f7fb;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  background: #fff;
+  width: 600px;              /* ✅ wider box */
+  max-width: 92vw;           /* still responsive */
+  padding: 40px;             /* ✅ more breathing room */
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  text-align: center;        /* ✅ center text inside */
+}
+
+
+h1 {
+  margin-bottom: 16px;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+input, textarea, button {
+  font: inherit;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+input, textarea {
+  width: 80%;                /* ✅ narrower so they don’t touch edges */
+  padding: 12px;
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+}
+
+.notes {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: grid;
+  gap: 16px;
+  text-align: center;        /* ✅ notes centered */
+}

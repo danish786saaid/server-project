@@ -1,5 +1,3 @@
-// COMP3810SEF Group Project - Note Taking App
-// Render-ready version
 
 require('dotenv').config();
 

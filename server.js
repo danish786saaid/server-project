@@ -1,6 +1,3 @@
-// COMP3810SEF Group Project - Note Taking App
-// Built by combining Lab05–Lab10 patterns
-
 require('dotenv').config();
 
 const express = require('express');
@@ -34,7 +31,7 @@ app.use(session({
 // ===== MongoDB =====
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error(err));
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // ===== Models =====
 const User = require('./models/User');
@@ -46,24 +43,32 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
   callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:8099/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
-  let user = await User.findOne({ googleId: profile.id });
-  if (!user) {
-    user = new User({
-      userUUID: profile.id,
-      userName: profile.displayName,
-      userEmail: profile.emails[0].value,
-      userAuthenticateType: "google",
-      googleId: profile.id
-    });
-    await user.save();
+  try {
+    let user = await User.findOne({ googleId: profile.id });
+    if (!user) {
+      user = new User({
+        userUUID: profile.id,
+        userName: profile.displayName,
+        userEmail: profile.emails[0].value,
+        userAuthenticateType: "google",
+        googleId: profile.id
+      });
+      await user.save();
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
   }
-  return done(null, user);
 }));
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  done(null, user);
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 app.use(passport.initialize());
@@ -102,8 +107,10 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ userEmail: email });
   if (!user) return res.send("No user found. Please sign up.");
+
   const match = await bcrypt.compare(password, user.userPassword);
   if (!match) return res.send("Invalid password.");
+
   req.session.user = user;
   res.redirect('/homepage');
 });
@@ -147,8 +154,9 @@ app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
 });
 
 // Logout
-app.get('/logout', (req, res) => {
-  req.logout(() => {
+app.get('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) return next(err);
     req.session = null;
     res.redirect('/login');
   });

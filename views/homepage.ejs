@@ -26,7 +26,9 @@
             </form>
             <small>
               Last modified:
-              <%= note.noteLastModified ? new Date(note.noteLastModified).toLocaleString() : "N/A" %>
+              <%= note.noteLastModified 
+                   ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
+                   : "N/A" %>
             </small>
           </li>
         <% }) %>

@@ -1,3 +1,4 @@
+// ===== Environment Variables ===== (AI generated: added dotenv for config management)
 require('dotenv').config();
 
 const express = require('express');              // Lab06: HTTP server with Express
@@ -62,6 +63,7 @@ passport.use(new GoogleStrategy({
   }
 }));
 
+// ===== Passport session handling ===== (Lab10: serialize/deserialize user)
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
   try {
@@ -82,7 +84,7 @@ function isLoggedIn(req, res, next) {
 }
 
 // ===== Routes =====
-// Lab06: GET/POST services
+// Login & Signup pages (Lab06: GET/POST services)
 app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up' }));
 
@@ -138,7 +140,7 @@ app.get('/homepage', isLoggedIn, async (req, res) => {
   res.render('homepage', { title: 'Homepage', user: currentUser, notes });
 });
 
-// Notes CRUD (Lab09: RESTful CRUD services)
+// Notes CRUD (Lab09: RESTful CRUD services adapted to notes)
 app.post('/notes', isLoggedIn, async (req, res) => {
   try {
     const currentUser = req.user || req.session.user;
@@ -193,7 +195,7 @@ app.get('/', (req, res) => {
   }
 });
 
-// Background route (Lab08: RESTful service returning JSON)
+// Background route (Lab08: RESTful service returning JSON, AI generated adaptation for Unsplash)
 app.get('/background', async (req, res) => {
   try {
     if (!process.env.UNSPLASH_API_KEY) {

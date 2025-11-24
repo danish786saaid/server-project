@@ -172,3 +172,12 @@ app.get('/', (req, res) => {
   }
 });
 
+const fetch = require('node-fetch');
+
+app.get('/background', async (req, res) => {
+  const response = await fetch(`https://api.unsplash.com/photos/random?query=landscape&client_id=${process.env.UNSPLASH_API_KEY}`);
+  const data = await response.json();
+  res.json({ imageUrl: data.urls.full });
+});
+
+

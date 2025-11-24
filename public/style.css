@@ -11,7 +11,7 @@ body {
   margin: 0;
   background: #f5f7fb;
   font-family: Arial, sans-serif;
-  background-image: url('/images/background.jpg'); /* path to your uploaded image */
+  background-image: url('/images/background.jpeg'); /* path to your uploaded image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -3,82 +3,6 @@
 <head>
   <title><%= title %></title>
   <link rel="stylesheet" href="/style.css">
-  <style>
-    body {
-      background-image: url('/images/background.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      color: #333;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .topbar p {
-      font-size: 1.2em;
-      font-weight: 600;
-    }
-
-    .topbar a {
-      text-decoration: none;
-      color: #3b82f6;
-      font-weight: 500;
-    }
-
-    .note-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: 8px;
-    }
-
-    .note-footer small {
-      font-size: 0.85em;
-      color: #666;
-    }
-
-    .note-footer .actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-    }
-
-    .note-footer .actions button {
-      padding: 12px 18px;
-      font-size: 1em;
-      background-color: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .note-footer .actions button:hover {
-      background-color: #2563eb;
-    }
-
-    .note-footer .actions a {
-      padding: 8px 14px;
-      font-size: 0.9em;
-      background-color: #ef4444;
-      color: white;
-      border-radius: 6px;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .note-footer .actions a:hover {
-      background-color: #dc2626;
-    }
-  </style>
 </head>
 <body>
   <div class="page-wrapper">
@@ -103,8 +27,6 @@
             <li>
               <form method="POST" action="/notes/edit/<%= note._id %>">
                 <textarea name="noteContent"><%= note.noteContent %></textarea>
-                
-                <!-- Footer layout: time bottom-left, actions bottom-right -->
                 <div class="note-footer">
                   <small>
                     Last modified:

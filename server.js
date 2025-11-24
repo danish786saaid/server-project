@@ -164,4 +164,11 @@ app.get('/logout', (req, res, next) => {
 
 // ===== Start =====
 app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));
+app.get('/', (req, res) => {
+  if (req.isAuthenticated() || req.session.user) {
+    res.redirect('/homepage');
+  } else {
+    res.redirect('/login');
+  }
+});
 

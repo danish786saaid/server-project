@@ -27,13 +27,17 @@
             <li>
               <form method="POST" action="/notes/edit/<%= note._id %>">
                 <textarea name="noteContent"><%= note.noteContent %></textarea>
+                
+                <!-- Footer layout: timestamp left, buttons right -->
                 <div class="note-footer">
-                  <small>
-                    Last modified:
-                    <%= note.noteLastModified 
-                         ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
-                         : "N/A" %>
-                  </small>
+                  <div class="timestamp">
+                    <small>
+                      Last modified:
+                      <%= note.noteLastModified 
+                           ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
+                           : "N/A" %>
+                    </small>
+                  </div>
                   <div class="actions">
                     <button type="submit">Save</button>
                     <a href="/notes/delete/<%= note._id %>">Delete</a>

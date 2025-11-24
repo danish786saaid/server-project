@@ -4,9 +4,9 @@
   <title><%= title %></title>
   <link rel="stylesheet" href="/style.css">
   <style>
-    /* Extra code: static background fallback */
+    /* Static background fallback */
     body {
-      background-image: url('/images/background.jpeg'); /* replace with your actual file name */
+      background-image: url('/images/background.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -15,9 +15,9 @@
   </style>
 </head>
 <body>
-  <!-- Extra code: page wrapper for consistent centering -->
+  <!-- Centered layout wrapper -->
   <div class="page-wrapper">
-    <!-- Extra code: overlay for readability -->
+    <!-- Overlay for readability -->
     <div class="container overlay">
       <h1>Welcome, <%= user ? user.userName : "Guest" %></h1>
 
@@ -54,16 +54,18 @@
     </div>
   </div>
 
-  <!-- Background fetch script -->
+  <!-- Optional dynamic background override -->
   <script>
     fetch('/background')
       .then(res => res.json())
       .then(data => {
-        document.body.style.backgroundImage = `url('${data.imageUrl}')`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundPosition = 'center';
-        document.body.style.backgroundRepeat = 'no-repeat';
-        document.body.style.backgroundAttachment = 'fixed';
+        if (data.imageUrl && data.imageUrl !== '/images/default-bg.jpg') {
+          document.body.style.backgroundImage = `url('${data.imageUrl}')`;
+          document.body.style.backgroundSize = 'cover';
+          document.body.style.backgroundPosition = 'center';
+          document.body.style.backgroundRepeat = 'no-repeat';
+          document.body.style.backgroundAttachment = 'fixed';
+        }
       })
       .catch(err => console.error("Background fetch failed:", err));
   </script>

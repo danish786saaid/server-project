@@ -26,9 +26,8 @@
           <% notes.forEach(function(note) { %>
             <li>
               <form method="POST" action="/notes/edit/<%= note._id %>">
-                <textarea name="noteContent" onfocus="this.nextElementSibling.style.display='flex'"><%= note.noteContent %></textarea>
+                <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
 
-                <!-- Footer layout -->
                 <div class="note-footer">
                   <div class="timestamp">
                     <small>
@@ -54,6 +53,7 @@
     </div>
   </div>
 
+  <!-- Background override -->
   <script>
     fetch('/background')
       .then(res => res.json())
@@ -63,6 +63,13 @@
         }
       })
       .catch(err => console.error("Background fetch failed:", err));
+
+    // Show Save/Delete on focus
+    function showActions(textarea) {
+      const footer = textarea.nextElementSibling;
+      const actions = footer?.querySelector('.actions');
+      if (actions) actions.style.display = 'flex';
+    }
   </script>
 </body>
 </html>

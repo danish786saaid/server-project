@@ -8,7 +8,7 @@
   <div class="page-wrapper">
     <div class="container overlay">
       
-      <!-- Topbar: welcome left, logout right -->
+      <!-- Topbar -->
       <div class="topbar">
         <p>Welcome, <%= user ? user.userName : "Guest" %></p>
         <a href="/logout">Logout</a>
@@ -26,10 +26,10 @@
           <% notes.forEach(function(note) { %>
             <li>
               <form method="POST" action="/notes/edit/<%= note._id %>">
-                <textarea name="noteContent"><%= note.noteContent %></textarea>
-                
-                <!-- Footer layout: timestamp left, buttons right -->
-                <div class="note-footer">
+                <textarea name="noteContent" oninput="this.nextElementSibling.style.display='flex'"><%= note.noteContent %></textarea>
+
+                <!-- Footer layout -->
+                <div class="note-footer" style="display: none;">
                   <div class="timestamp">
                     <small>
                       Last modified:
@@ -61,10 +61,6 @@
       .then(data => {
         if (data.imageUrl && data.imageUrl !== '/images/default-bg.jpg') {
           document.body.style.backgroundImage = `url('${data.imageUrl}')`;
-          document.body.style.backgroundSize = 'cover';
-          document.body.style.backgroundPosition = 'center';
-          document.body.style.backgroundRepeat = 'no-repeat';
-          document.body.style.backgroundAttachment = 'fixed';
         }
       })
       .catch(err => console.error("Background fetch failed:", err));

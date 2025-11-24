@@ -12,6 +12,30 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
+
+    .topbar {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      text-align: right;
+    }
+
+    .note-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .note-footer small {
+      font-size: 0.85em;
+      color: #555;
+    }
+
+    .note-footer .actions {
+      display: flex;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -19,7 +43,12 @@
   <div class="page-wrapper">
     <!-- Overlay for readability -->
     <div class="container overlay">
-      <h1>Welcome, <%= user ? user.userName : "Guest" %></h1>
+      
+      <!-- Top right welcome and logout -->
+      <div class="topbar">
+        <p>Welcome, <%= user ? user.userName : "Guest" %></p>
+        <a href="/logout">Logout</a>
+      </div>
 
       <!-- Add note form -->
       <form method="POST" action="/notes">
@@ -34,15 +63,21 @@
             <li>
               <form method="POST" action="/notes/edit/<%= note._id %>">
                 <textarea name="noteContent"><%= note.noteContent %></textarea>
-                <button type="submit">Save</button>
-                <a href="/notes/delete/<%= note._id %>">Delete</a>
+                
+                <!-- Footer layout: time left, actions right -->
+                <div class="note-footer">
+                  <small>
+                    Last modified:
+                    <%= note.noteLastModified 
+                         ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
+                         : "N/A" %>
+                  </small>
+                  <div class="actions">
+                    <button type="submit">Save</button>
+                    <a href="/notes/delete/<%= note._id %>">Delete</a>
+                  </div>
+                </div>
               </form>
-              <small>
-                Last modified:
-                <%= note.noteLastModified 
-                     ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
-                     : "N/A" %>
-              </small>
             </li>
           <% }) %>
         </ul>
@@ -50,7 +85,6 @@
         <p>No notes yet.</p>
       <% } %>
 
-      <a href="/logout">Logout</a>
     </div>
   </div>
 

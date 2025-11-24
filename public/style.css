@@ -1,86 +1,144 @@
-/* Centered screen layout and basic styling */
-
+/* Reset and base layout */
 html, body {
   height: 100%;
-}
-
-body {
-  display: flex;
-  align-items: center;       /* vertical center */
-  justify-content: center;   /* horizontal center */
   margin: 0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
   background: #f5f7fb;
-  font-family: Arial, sans-serif;
-  background-image: url('/images/background.jpeg'); /* path to your uploaded image */
+  background-image: url('/images/background.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e2e2e;
 }
 
+/* Main container */
 .container {
   background: #fff;
-  width: 600px;              /* ✅ wider box */
-  max-width: 92vw;           /* still responsive */
-  padding: 40px;             /* ✅ more breathing room */
+  width: 600px;
+  max-width: 92vw;
+  padding: 40px;
   border-radius: 12px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-  text-align: center;        /* ✅ center text inside */
 }
 
+/* Headings */
 h1 {
   margin-bottom: 16px;
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #1f2937;
 }
 
+/* Form layout */
 form {
   display: grid;
   gap: 16px;
   justify-items: center;
 }
 
-input, textarea, button {
-  font: inherit;
-}
-
+/* Inputs and textarea */
 input, textarea {
-  width: 100%;
-  padding: 10px 12px;
+  width: 80%;
+  padding: 12px;
   border: 1px solid #d9dee7;
   border-radius: 8px;
+  font-size: 1em;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  resize: none;
+  overflow-y: auto;
+  min-height: 80px;
+  max-height: 200px;
 }
 
+/* Buttons */
 button {
-  padding: 10px 14px;
-  border: none;
-  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 1em;
   background: #3b82f6;
   color: #fff;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 button:hover {
   background: #2563eb;
 }
 
-input, textarea {
-  width: 80%;                /* ✅ narrower so they don’t touch edges */
-  padding: 12px;
-  border: 1px solid #d9dee7;
-  border-radius: 8px;
-}
-
+/* Notes list */
 .notes {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 24px 0;
   display: grid;
-  gap: 16px;
-  text-align: center;        /* ✅ notes centered */
+  gap: 20px;
 }
 
-/* 🔥 Extra code for consistency across all pages */
+/* Individual note card */
+.notes li {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-/* Ensure background applies everywhere */
+/* Note footer layout */
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.note-footer small {
+  font-size: 0.85em;
+  color: #666;
+}
+
+/* Save/Delete buttons */
+.note-footer .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.note-footer .actions button {
+  padding: 12px 18px;
+  font-size: 1em;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.note-footer .actions button:hover {
+  background-color: #2563eb;
+}
+
+.note-footer .actions a {
+  padding: 10px 16px;
+  font-size: 0.9em;
+  background-color: #ef4444;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.note-footer .actions a:hover {
+  background-color: #dc2626;
+}
+
+/* Wrapper for full-page centering */
 .page-wrapper {
   min-height: 100vh;
   display: flex;
@@ -88,17 +146,9 @@ input, textarea {
   justify-content: center;
 }
 
-/* Optional overlay for readability */
+/* Overlay for readability */
 .overlay {
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 12px;
   padding: 20px;
-}
-
-/* Notes styling enhancement */
-.notes li {
-  background: #f9fafb;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }

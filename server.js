@@ -1,27 +1,27 @@
 require('dotenv').config();
 
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const express = require('express');              // Lab06: HTTP server with Express
+const mongoose = require('mongoose');            // Lab05: Connect to MongoDB via Node.js driver
+const bodyParser = require('body-parser');       // Lab06: Handle GET/POST requests
+const session = require('express-session');      // Lab08: Express middleware (session)
+const passport = require('passport');            // Lab10: OAuth with Passport
+const GoogleStrategy = require('passport-google-oauth20').Strategy; // Lab10: Google OAuth strategy
 const path = require('path');
-const bcrypt = require('bcryptjs'); // bcryptjs for Render
-const fetch = require('node-fetch');
+const bcrypt = require('bcryptjs');              // Lab07: Mongoose + bcrypt for password hashing
+const fetch = require('node-fetch');             // Lab08: Background image fetch (RESTful service)
 
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 8099;
 
-// ===== Views & static =====
+// ===== Views & static ===== (Lab07: Express + EJS templating)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ===== Sessions =====
+// ===== Sessions ===== (Lab08: Cookie/session middleware)
 app.use(session({
   secret: process.env.SECRETKEY || 'SECRETKEY',
   resave: false,
@@ -29,16 +29,16 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// ===== MongoDB =====
+// ===== MongoDB ===== (Lab05: MongoDB driver connection)
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// ===== Models =====
+// ===== Models ===== (Lab07: Mongoose schema/models)
 const User = require('./models/User');
 const Note = require('./models/Note');
 
-// ===== Google OAuth =====
+// ===== Google OAuth ===== (Lab10: Passport OAuth strategy)
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || "",
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
@@ -75,17 +75,18 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ===== Auth guard =====
+// ===== Auth guard ===== (Lab10: Middleware isLoggedIn)
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() || req.session.user) return next();
   res.redirect('/login');
 }
 
 // ===== Routes =====
+// Lab06: GET/POST services
 app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up' }));
 
-// Signup
+// Signup (Lab07: bcrypt password hashing + MongoDB insert)
 app.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -107,7 +108,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Login
+// Login (Lab06: POST request handling)
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -124,20 +125,20 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Google login
+// Google login (Lab10: OAuth strategy)
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', { successRedirect: '/homepage', failureRedirect: '/login' })
 );
 
-// Homepage
+// Homepage (Lab07: EJS rendering with MongoDB data)
 app.get('/homepage', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
   res.render('homepage', { title: 'Homepage', user: currentUser, notes });
 });
 
-// Notes CRUD
+// Notes CRUD (Lab09: RESTful CRUD services)
 app.post('/notes', isLoggedIn, async (req, res) => {
   try {
     const currentUser = req.user || req.session.user;
@@ -174,7 +175,7 @@ app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
   }
 });
 
-// Logout
+// Logout (Lab10: session clear)
 app.get('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) return next(err);
@@ -183,7 +184,7 @@ app.get('/logout', (req, res, next) => {
   });
 });
 
-// Root route
+// Root route (Lab06: GET redirect)
 app.get('/', (req, res) => {
   if (req.isAuthenticated() || req.session.user) {
     res.redirect('/homepage');
@@ -192,7 +193,7 @@ app.get('/', (req, res) => {
   }
 });
 
-// Background route
+// Background route (Lab08: RESTful service returning JSON)
 app.get('/background', async (req, res) => {
   try {
     if (!process.env.UNSPLASH_API_KEY) {
@@ -206,5 +207,5 @@ app.get('/background', async (req, res) => {
   }
 });
 
-// ===== Start =====
+// ===== Start ===== (Lab06: HTTP server listen)
 app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));

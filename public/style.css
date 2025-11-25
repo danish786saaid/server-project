@@ -9,164 +9,136 @@ html, body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: #2e2e2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-wrapper {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* ===== Container ===== */
 .container {
   background: #ffffff;
   width: 450px;
   max-width: 95vw;
-  padding: 30px;
+  padding: 35px;
   border-radius: 12px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.overlay {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  padding: 20px;
-  width: 100%;
-}
-
-/* ===== Welcome Block ===== */
-.welcome-block {
   text-align: center;
 }
 
-.welcome-block p {
-  font-size: 1.2em;
-  font-weight: 600;
-  margin: 0;
+.overlay {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 20px;
 }
 
-.welcome-block a {
-  display: inline-block;
-  margin-top: 6px;
+/* ===== Topbar ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.topbar p {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.topbar a {
   text-decoration: none;
   color: #3b82f6;
   font-weight: 500;
 }
 
 /* ===== Create Note Form ===== */
-.note-form {
-  background: linear-gradient(135deg, #ede9fe, #f5f3ff);
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
+  margin-bottom: 32px;
 }
 
-.note-form textarea {
+form textarea {
   width: 100%;
   min-height: 120px;
-  font-size: 1.1em;
-  font-weight: 600;
-  padding: 16px 20px;
-  border-radius: 10px;
-  border: 1px solid #d8b4fe;
-  background-color: #faf5ff;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+  font-size: 1em;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
   resize: none;
-  overflow-y: auto;
 }
 
-.note-form button {
-  width: auto;
-  padding: 12px 24px;
+form button {
+  padding: 12px;
   font-size: 1em;
-  background-color: #8b5cf6;
+  background-color: #3b82f6;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.note-form button:hover {
-  background-color: #7c3aed;
+form button:hover {
+  background-color: #2563eb;
 }
 
 /* ===== Notes List ===== */
 .notes {
-  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  list-style: none;
 }
 
-/* ===== Saved Note Card ===== */
 .notes li {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  background: #f5f3ff;
+  background: #f3f4f6;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .notes li textarea {
   width: 100%;
   height: 100px;
   font-size: 1em;
-  font-weight: 500;
-  padding: 12px 16px;
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid #d8b4fe;
-  background-color: #faf5ff;
+  border: 1px solid #d1d5db;
   resize: none;
-  overflow-y: auto;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* ===== Note Footer ===== */
 .note-footer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .note-footer .timestamp small {
   font-size: 0.85em;
   color: #6b7280;
-  font-weight: 500;
-  display: block;
 }
 
-/* ===== Actions ===== */
 .note-footer .actions {
   display: flex;
+  justify-content: space-between;
   gap: 12px;
 }
 
 .note-footer .actions button,
 .note-footer .actions a {
   flex: 1;
-  padding: 10px 16px;
+  padding: 10px;
   font-size: 0.95em;
   border-radius: 6px;
   font-weight: 500;
@@ -176,13 +148,13 @@ html, body {
 }
 
 .note-footer .actions button {
-  background-color: #8b5cf6;
+  background-color: #3b82f6;
   color: white;
   border: none;
 }
 
 .note-footer .actions button:hover {
-  background-color: #7c3aed;
+  background-color: #2563eb;
 }
 
 .note-footer .actions a {

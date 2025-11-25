@@ -99,19 +99,19 @@ input[type="password"] {
    Lab09: Note-taking input
 */
 textarea[name="noteContent"] {
-  width: 80%;
-  max-width: 320px;
-  min-height: 80px;
-  max-height: 200px;
+  width: 90%;
+  max-width: 420px;
+  min-height: 120px;
+  max-height: 240px;
   resize: none;
   overflow-y: auto;
-  padding: 14px 18px;
-  font-size: 1.05em;
-  border-radius: 8px;
-  font-weight: 500;
+  padding: 16px 20px;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 10px;
   border: 1px solid #d1d5db;
-  background-color: #f9fafb;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+  background-color: #fefefe;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 /* ===== Button Styling =====
@@ -148,6 +148,7 @@ a.google-btn {
   text-align: center;
   text-decoration: none;
   font-weight: 500;
+  margin: 0 auto;
 }
 
 a.google-btn:hover {
@@ -173,7 +174,7 @@ a.google-btn:hover {
   background: #f3f4f6;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 12px;

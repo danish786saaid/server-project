@@ -6,7 +6,7 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <div class="container overlay">
+    <div class="container">
       
       <!-- Topbar -->
       <div class="topbar">
@@ -14,8 +14,8 @@
         <a href="/logout">Logout</a>
       </div>
 
-      <!-- Add note form -->
-      <form method="POST" action="/notes">
+      <!-- Create note -->
+      <form method="POST" action="/notes" class="note-form">
         <textarea name="noteContent" placeholder="Write a note..." required></textarea>
         <button type="submit">Add note</button>
       </form>

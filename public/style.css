@@ -1,3 +1,6 @@
+/* ===== Global Layout =====
+   Lab06: Full-page layout with background image
+*/
 html, body {
   height: 100%;
   margin: 0;
@@ -13,6 +16,9 @@ html, body {
   justify-content: center;
 }
 
+/* ===== Page Wrapper =====
+   Lab07: Centered container layout
+*/
 .page-wrapper {
   min-height: 100vh;
   display: flex;
@@ -20,13 +26,16 @@ html, body {
   justify-content: center;
 }
 
+/* ===== Container =====
+   Lab07: Card-style layout for forms and notes
+*/
 .container {
   background: #ffffff;
-  width: 600px;
-  max-width: 92vw;
+  width: 480px;
+  max-width: 95vw;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
   text-align: center;
 }
 
@@ -36,6 +45,9 @@ html, body {
   padding: 20px;
 }
 
+/* ===== Topbar =====
+   Lab08: Session-based user display
+*/
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -54,41 +66,74 @@ html, body {
   font-weight: 500;
 }
 
+/* ===== Form Styling =====
+   Lab06: GET/POST form layout
+*/
 form {
+  width: 100%;
   display: grid;
   gap: 16px;
-  justify-items: center;
+  margin-bottom: 16px;
 }
 
-textarea[name="noteContent"] {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea[name="noteContent"],
+button,
+a.google-btn {
   width: 100%;
-  min-height: 80px;
-  max-height: 200px;
-  resize: none;
-  overflow-y: auto;
-  padding: 12px;
-  border: 1px solid #d1d5db;
+  padding: 14px 18px;
+  font-size: 1.05em;
   border-radius: 8px;
-  font-size: 1em;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
   background-color: #f9fafb;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
-button[type="submit"] {
-  padding: 12px 18px;
-  font-size: 1em;
+/* ===== Textarea for Notes =====
+   Lab09: Note-taking input
+*/
+textarea[name="noteContent"] {
+  min-height: 80px;
+  max-height: 200px;
+  resize: none;
+  overflow-y: auto;
+}
+
+/* ===== Button Styling =====
+   Lab06–Lab08: Submit and action buttons
+*/
+button {
   background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #2563eb;
 }
 
+/* ===== Google Login Button =====
+   Lab10: OAuth login link
+*/
+a.google-btn {
+  background-color: transparent;
+  color: #3b82f6;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.google-btn:hover {
+  text-decoration: underline;
+}
+
+/* ===== Notes List =====
+   Lab09: Displaying saved notes
+*/
 .notes {
   list-style: none;
   padding: 0;
@@ -108,7 +153,9 @@ button[type="submit"]:hover {
   position: relative;
 }
 
-/* Footer layout */
+/* ===== Note Footer =====
+   Lab09: Edit/Delete actions and timestamp
+*/
 .note-footer {
   display: flex;
   flex-direction: column;
@@ -161,4 +208,18 @@ button[type="submit"]:hover {
   color: #6b7280;
   font-weight: 500;
   text-align: left;
+}
+
+/* ===== Link Styling =====
+   Lab06: Navigation links
+*/
+.links a {
+  font-size: 0.95em;
+  color: #3b82f6;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
 }

@@ -30,11 +30,6 @@
                 <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
 
                 <div class="note-footer">
-                  <!-- Actions (Lab09: Save/Delete buttons) -->
-                  <div class="actions" style="display: none;">
-                    <button type="submit">Save</button>
-                    <a href="/notes/delete/<%= note._id %>">Delete</a>
-                  </div>
                   <!-- Timestamp (Lab07: Mongoose date formatting) -->
                   <div class="timestamp">
                     <small>
@@ -43,6 +38,12 @@
                            ? new Date(note.noteLastModified).toLocaleString("en-HK", { timeZone: "Asia/Hong_Kong" }) 
                            : "N/A" %>
                     </small>
+                  </div>
+
+                  <!-- Actions (Lab09: Save/Delete buttons) -->
+                  <div class="actions" style="display: none;">
+                    <button type="submit">Save</button>
+                    <a href="/notes/delete/<%= note._id %>">Delete</a>
                   </div>
                 </div>
               </form>

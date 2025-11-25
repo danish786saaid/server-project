@@ -8,19 +8,19 @@
   <div class="page-wrapper">
     <div class="container overlay">
       
-      <!-- Welcome and Logout stacked -->
+      <!-- Welcome message -->
       <div class="welcome-block">
         <p>Welcome, <%= user ? user.userName : "Guest" %></p>
         <a href="/logout">Logout</a>
       </div>
 
-      <!-- Create note box -->
+      <!-- Create note -->
       <form method="POST" action="/notes" class="note-form">
         <textarea name="noteContent" placeholder="Write a note..." required></textarea>
         <button type="submit">Add note</button>
       </form>
 
-      <!-- Notes list -->
+      <!-- Saved notes -->
       <% if (notes && notes.length) { %>
         <ul class="notes">
           <% notes.forEach(function(note) { %>

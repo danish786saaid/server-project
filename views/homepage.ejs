@@ -16,18 +16,18 @@
       </div>
 
       <!-- Add note form (Lab09: POST form for CRUD, similar) -->
-      <form method="POST" action="/notes">
-        <textarea name="noteContent" placeholder="Write a note..." required></textarea>
-        <button type="submit">Add note</button>
+      <form method="POST" action="/notes" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+        <textarea name="noteContent" placeholder="Write a note..." required style="width: 100%; max-width: 320px;"></textarea>
+        <button type="submit" style="width: 100%; max-width: 320px;">Add note</button>
       </form>
 
       <!-- Notes list (Lab09: CRUD list, adapted to notes) -->
       <% if (notes && notes.length) { %>
-        <ul class="notes">
+        <ul class="notes" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
           <% notes.forEach(function(note) { %>
-            <li>
+            <li style="width: 100%; max-width: 420px;">
               <form method="POST" action="/notes/edit/<%= note._id %>">
-                <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
+                <textarea name="noteContent" onfocus="showActions(this)" style="width: 100%;"><%= note.noteContent %></textarea>
 
                 <div class="note-footer">
                   <!-- Actions (Lab09: Save/Delete buttons, similar) -->

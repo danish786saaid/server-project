@@ -14,20 +14,20 @@ html, body {
 .page-wrapper {
   min-height: 100vh;
   display: flex;
-  align-items: center;   /* vertically center container */
-  justify-content: center; /* horizontally center container */
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
   background: #ffffff;
-  width: 480px;            /* fixed card width for consistent centering */
+  width: 480px;
   max-width: 95vw;
   padding: 35px;
   border-radius: 12px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-  display: flex;           /* ensure inner children can be centered */
+  display: flex;
   flex-direction: column;
-  align-items: center;     /* center all inner blocks */
+  align-items: center;
   gap: 16px;
 }
 
@@ -38,30 +38,28 @@ html, body {
   width: 100%;
 }
 
-.topbar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+/* ===== Welcome Block ===== */
+.welcome-block {
+  text-align: center;
+  margin-bottom: 16px;
 }
 
-.topbar p {
+.welcome-block p {
   font-size: 1.2em;
   font-weight: 600;
+  margin: 0;
 }
 
-.topbar a {
+.welcome-block a {
+  display: inline-block;
+  margin-top: 6px;
   text-decoration: none;
   color: #3b82f6;
   font-weight: 500;
 }
 
-/* ===== Create Note Form (centered block) ===== */
+/* ===== Create Note Form ===== */
 .note-form {
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto; /* center inside container */
   background: linear-gradient(135deg, #ede9fe, #f5f3ff);
   padding: 24px;
   border-radius: 12px;
@@ -70,6 +68,9 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
 }
 
 .note-form textarea {
@@ -90,7 +91,7 @@ html, body {
   width: auto;
   padding: 12px 24px;
   font-size: 1em;
-  background-color: #8b5cf6; /* purple match login */
+  background-color: #8b5cf6;
   color: white;
   border: none;
   border-radius: 8px;
@@ -102,24 +103,24 @@ html, body {
   background-color: #7c3aed;
 }
 
-/* ===== Notes List (centered list) ===== */
+/* ===== Notes List ===== */
 .notes {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-items: center; /* center each card */
+  align-items: center;
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-/* ===== Saved Note Card (centered card) ===== */
+/* ===== Saved Note Card ===== */
 .notes li {
   width: 100%;
-  max-width: 420px;     /* slightly smaller than create box */
-  margin: 0 auto;       /* center the card itself */
-  background: #f5f3ff;  /* soft purple */
+  max-width: 420px;
+  margin: 0 auto;
+  background: #f5f3ff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
@@ -130,19 +131,19 @@ html, body {
 
 .notes li textarea {
   width: 100%;
-  height: 100px;        /* fixed height */
+  height: 100px;
   font-size: 1em;
   font-weight: 500;
   padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid #d8b4fe;
   background-color: #faf5ff;
-  resize: none;         /* not adjustable */
+  resize: none;
   overflow-y: auto;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
-/* ===== Note footer (timestamp above actions) ===== */
+/* ===== Note Footer ===== */
 .note-footer {
   display: flex;
   flex-direction: column;
@@ -156,7 +157,7 @@ html, body {
   display: block;
 }
 
-/* actions row centered evenly */
+/* ===== Actions ===== */
 .note-footer .actions {
   display: flex;
   gap: 12px;
@@ -175,7 +176,7 @@ html, body {
 }
 
 .note-footer .actions button {
-  background-color: #8b5cf6; /* purple save */
+  background-color: #8b5cf6;
   color: white;
   border: none;
 }
@@ -192,16 +193,4 @@ html, body {
 
 .note-footer .actions a:hover {
   background-color: #dc2626;
-}
-
-/* ===== Links ===== */
-.links a {
-  font-size: 0.95em;
-  color: #3b82f6;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.links a:hover {
-  text-decoration: underline;
 }

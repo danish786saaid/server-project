@@ -211,3 +211,43 @@ app.get('/background', async (req, res) => {
 
 // ===== Start ===== (Lab06: HTTP server listen)
 app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));
+
+// RESTful API routes
+app.get('/api/notes', isLoggedIn, async (req, res) => {
+  const currentUser = req.user || req.session.user;
+  const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
+  res.json(notes);
+});
+
+app.get('/api/notes/:id', isLoggedIn, async (req, res) => {
+  const note = await Note.findById(req.params.id);
+  if (!note) return res.status(404).json({ error: "Note not found" });
+  res.json(note);
+});
+
+app.post('/api/notes', isLoggedIn, async (req, res) => {
+  const currentUser = req.user || req.session.user;
+  const note = new Note({
+    noteUUID: new mongoose.Types.ObjectId().toString(),
+    noteContent: req.body.noteContent,
+    noteUserUUID: currentUser.userUUID
+  });
+  await note.save();
+  res.status(201).json(note);
+});
+
+app.put('/api/notes/:id', isLoggedIn, async (req, res) => {
+  const updated = await Note.findByIdAndUpdate(
+    req.params.id,
+    { noteContent: req.body.noteContent, noteLastModified: Date.now() },
+    { new: true }
+  );
+  if (!updated) return res.status(404).json({ error: "Note not found" });
+  res.json(updated);
+});
+
+app.delete('/api/notes/:id', isLoggedIn, async (req, res) => {
+  const deleted = await Note.findByIdAndDelete(req.params.id);
+  if (!deleted) return res.status(404).json({ error: "Note not found" });
+  res.json({ message: "Note deleted" });
+});

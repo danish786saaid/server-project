@@ -1,4 +1,4 @@
-/* ===== Global Layout ===== */
+/* ===== Global Layout ===== Lab06: Full-page layout with background image */
 html, body {
   height: 100%;
   margin: 0;
@@ -14,6 +14,7 @@ html, body {
   justify-content: center;
 }
 
+/* ===== Page Wrapper ===== Lab07: Centered container layout */
 .page-wrapper {
   width: 100%;
   min-height: 100vh;
@@ -22,6 +23,7 @@ html, body {
   justify-content: center;
 }
 
+/* ===== Container ===== Lab07: Card-style layout for forms and notes */
 .container {
   background: #ffffff;
   width: 450px;
@@ -38,7 +40,7 @@ html, body {
   padding: 20px;
 }
 
-/* ===== Topbar ===== */
+/* ===== Topbar ===== Lab08: Session-based user display */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -57,7 +59,7 @@ html, body {
   font-weight: 500;
 }
 
-/* ===== Create Note Form ===== */
+/* ===== Create Note Form ===== Lab09: Emphasized note input box */
 form {
   display: flex;
   flex-direction: column;
@@ -89,7 +91,7 @@ form button:hover {
   background-color: #2563eb;
 }
 
-/* ===== Notes List ===== */
+/* ===== Notes List ===== Lab09: Displaying saved notes */
 .notes {
   list-style: none;
   padding: 0;
@@ -116,7 +118,7 @@ form button:hover {
   resize: none;
 }
 
-/* ===== Note Footer ===== */
+/* ===== Note Footer ===== Lab09: Edit/Delete actions and timestamp */
 .note-footer {
   display: flex;
   flex-direction: column;
@@ -165,4 +167,16 @@ form button:hover {
 
 .note-footer .actions a:hover {
   background-color: #dc2626;
+}
+
+/* ===== Link Styling ===== Lab06: Navigation links */
+.links a {
+  font-size: 0.95em;
+  color: #3b82f6;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
 }

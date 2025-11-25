@@ -86,6 +86,7 @@ function isLoggedIn(req, res, next) {
 app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up' }));
 
+// Signup
 app.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -107,6 +108,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+// Login
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -123,18 +125,20 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Google login
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', { successRedirect: '/homepage', failureRedirect: '/login' })
 );
 
+// Homepage
 app.get('/homepage', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
   res.render('homepage', { title: 'Homepage', user: currentUser, notes });
 });
 
-// ===== Notes CRUD (UI) =====
+// Notes CRUD (UI)
 app.post('/notes', isLoggedIn, async (req, res) => {
   try {
     const currentUser = req.user || req.session.user;
@@ -171,6 +175,7 @@ app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
   }
 });
 
+// Logout
 app.get('/logout', (req, res, next) => {
   req.logout(err => {
     if (err) return next(err);
@@ -179,6 +184,7 @@ app.get('/logout', (req, res, next) => {
   });
 });
 
+// Root route
 app.get('/', (req, res) => {
   if (req.isAuthenticated() || req.session.user) {
     res.redirect('/homepage');
@@ -187,6 +193,7 @@ app.get('/', (req, res) => {
   }
 });
 
+// Background route
 app.get('/background', async (req, res) => {
   try {
     if (!process.env.UNSPLASH_API_KEY) {
@@ -200,7 +207,7 @@ app.get('/background', async (req, res) => {
   }
 });
 
-// ===== RESTful Notes API =====
+// ===== RESTful Notes API (no auth required) =====
 app.get('/api/notes', async (req, res) => {
   const notes = await Note.find();
   res.json(notes);
@@ -238,24 +245,5 @@ app.delete('/api/notes/:id', async (req, res) => {
   res.json({ message: "Note deleted" });
 });
 
-// ===== RESTful Users API (no auth required) =====
-app.get('/api/users', async (req, res) => {
-  const users = await User.find();
-  res.json(users);
-});
-
-app.get('/api/users/:id', async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) return res.status(404).json({ error: "User not found" });
-  res.json(user);
-});
-
-app.post('/api/users', async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
-      userUUID: new mongoose.Types.ObjectId().toString(),
-      userName: name,
-      userEmail: email,
-      user
+// ===== Start =====
+app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));

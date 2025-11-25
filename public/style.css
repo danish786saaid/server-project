@@ -31,9 +31,9 @@ html, body {
 */
 .container {
   background: #ffffff;
-  width: 480px;
-  max-width: 95vw;
-  padding: 40px;
+  width: 420px;
+  max-width: 90vw;
+  padding: 32px;
   border-radius: 12px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.08);
   text-align: center;

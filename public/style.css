@@ -91,7 +91,7 @@ html, body {
   width: auto;
   padding: 12px 24px;
   font-size: 1em;
-  background-color: #3b82f6;
+  background-color: #8b5cf6;
   color: white;
   border: none;
   border-radius: 8px;
@@ -100,7 +100,7 @@ html, body {
 }
 
 .note-form button:hover {
-  background-color: #2563eb;
+  background-color: #7c3aed;
 }
 
 /* ===== Notes List ===== Lab09: Displaying saved notes */
@@ -117,7 +117,7 @@ html, body {
 .notes li {
   width: 100%;
   max-width: 420px;
-  background: #f3f4f6;
+  background: #f5f3ff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
@@ -125,6 +125,20 @@ html, body {
   flex-direction: column;
   gap: 12px;
   position: relative;
+}
+
+.notes li textarea {
+  width: 100%;
+  height: 100px;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #d8b4fe;
+  background-color: #faf5ff;
+  resize: none;
+  overflow-y: auto;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* ===== Note Footer ===== Lab09: Edit/Delete actions and timestamp */
@@ -137,6 +151,14 @@ html, body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
+.note-footer .timestamp small {
+  font-size: 0.85em;
+  color: #6b7280;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* ===== Actions ===== Lab09: Save/Delete buttons */
 .note-footer .actions {
   display: flex;
   justify-content: space-between;
@@ -156,13 +178,13 @@ html, body {
 }
 
 .note-footer .actions button {
-  background-color: #3b82f6;
+  background-color: #8b5cf6;
   color: white;
   border: none;
 }
 
 .note-footer .actions button:hover {
-  background-color: #2563eb;
+  background-color: #7c3aed;
 }
 
 .note-footer .actions a {
@@ -175,21 +197,6 @@ html, body {
   background-color: #dc2626;
 }
 
-.note-footer .timestamp small {
-  font-size: 0.85em;
-  color: #6b7280;
-  font-weight: 500;
-  text-align: left;
-}
-
 /* ===== Link Styling ===== Lab06: Navigation links */
 .links a {
-  font-size: 0.95em;
-  color: #3b82f6;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.links a:hover {
-  text-decoration: underline;
-}
+  font-size: 0.95

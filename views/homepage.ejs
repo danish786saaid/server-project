@@ -5,23 +5,21 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <!-- Lab07: Centered layout wrapper -->
   <div class="page-wrapper">
     <div class="container overlay">
       
-      <!-- Topbar (Lab08: session-based user display) -->
       <div class="topbar">
         <p>Welcome, <%= user ? user.userName : "Guest" %></p>
         <a href="/logout">Logout</a>
       </div>
 
-      <!-- Add note form (Lab09: POST form for note creation) -->
+      <!-- Create note (centered) -->
       <form method="POST" action="/notes" class="note-form">
         <textarea name="noteContent" placeholder="Write a note..." required></textarea>
         <button type="submit">Add note</button>
       </form>
 
-      <!-- Notes list (Lab09: CRUD list for saved notes) -->
+      <!-- Saved notes (each card centered) -->
       <% if (notes && notes.length) { %>
         <ul class="notes">
           <% notes.forEach(function(note) { %>
@@ -30,7 +28,6 @@
                 <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
 
                 <div class="note-footer">
-                  <!-- Timestamp (Lab07: Mongoose date formatting) -->
                   <div class="timestamp">
                     <small>
                       Last modified:
@@ -40,7 +37,6 @@
                     </small>
                   </div>
 
-                  <!-- Actions (Lab09: Save/Delete buttons) -->
                   <div class="actions" style="display: none;">
                     <button type="submit">Save</button>
                     <a href="/notes/delete/<%= note._id %>">Delete</a>
@@ -57,7 +53,6 @@
     </div>
   </div>
 
-  <!-- Background override (Lab08: RESTful fetch) -->
   <script>
     fetch('/background')
       .then(res => res.json())

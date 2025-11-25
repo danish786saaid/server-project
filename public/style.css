@@ -131,6 +131,7 @@ html, body {
   flex-direction: column;
   gap: 12px;
   position: relative;
+  text-align: left;
 }
 
 .notes li textarea {
@@ -205,12 +206,4 @@ html, body {
 
 /* ===== Link Styling ===== Lab06: Navigation links */
 .links a {
-  font-size: 0.95em;
-  color: #3b82f6;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.links a:hover {
-  text-decoration: underline;
-}
+  font-size:

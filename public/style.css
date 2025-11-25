@@ -88,8 +88,19 @@ html, body {
 }
 
 .note-form button {
-  width: 100%;
-  max-width: 320px;
+  width: auto;
+  padding: 12px 24px;
+  font-size: 1em;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.note-form button:hover {
+  background-color: #2563eb;
 }
 
 /* ===== Notes List ===== Lab09: Displaying saved notes */

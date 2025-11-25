@@ -1,4 +1,4 @@
-/* ===== Global Layout ===== Lab06: Full-page layout with background image */
+/* ===== Global Layout ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -9,43 +9,41 @@ html, body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: #2e2e2e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* ===== Page Wrapper ===== Lab07: Centered container layout */
 .page-wrapper {
-  width: 100%;
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center;   /* vertically center container */
+  justify-content: center; /* horizontally center container */
 }
 
-/* ===== Container ===== Lab07: Card-style layout for forms and notes */
 .container {
   background: #ffffff;
-  width: 450px;
+  width: 480px;            /* fixed card width for consistent centering */
   max-width: 95vw;
   padding: 35px;
   border-radius: 12px;
   box-shadow: 0 8px 28px rgba(0,0,0,0.08);
-  text-align: center;
+  display: flex;           /* ensure inner children can be centered */
+  flex-direction: column;
+  align-items: center;     /* center all inner blocks */
+  gap: 16px;
 }
 
 .overlay {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 20px;
+  width: 100%;
 }
 
-/* ===== Topbar ===== Lab08: Session-based user display */
 .topbar {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .topbar p {
@@ -59,22 +57,19 @@ html, body {
   font-weight: 500;
 }
 
-/* ===== Create Note Form ===== Lab09: Emphasized note input box */
+/* ===== Create Note Form (centered block) ===== */
 .note-form {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto; /* center inside container */
   background: linear-gradient(135deg, #ede9fe, #f5f3ff);
   padding: 24px;
   border-radius: 12px;
-  margin-bottom: 32px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
-  width: 100%;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .note-form textarea {
@@ -89,14 +84,13 @@ html, body {
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
   resize: none;
   overflow-y: auto;
-  box-sizing: border-box;
 }
 
 .note-form button {
   width: auto;
   padding: 12px 24px;
   font-size: 1em;
-  background-color: #8b5cf6;
+  background-color: #8b5cf6; /* purple match login */
   color: white;
   border: none;
   border-radius: 8px;
@@ -108,68 +102,63 @@ html, body {
   background-color: #7c3aed;
 }
 
-/* ===== Notes List ===== Lab09: Displaying saved notes */
+/* ===== Notes List (centered list) ===== */
 .notes {
-  list-style: none;
-  padding: 0;
-  margin: 24px 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 20px;
+  align-items: center; /* center each card */
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
+/* ===== Saved Note Card (centered card) ===== */
 .notes li {
   width: 100%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  background: #f5f3ff;
+  max-width: 420px;     /* slightly smaller than create box */
+  margin: 0 auto;       /* center the card itself */
+  background: #f5f3ff;  /* soft purple */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  position: relative;
-  text-align: left;
 }
 
 .notes li textarea {
   width: 100%;
-  height: 100px;
+  height: 100px;        /* fixed height */
   font-size: 1em;
   font-weight: 500;
   padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid #d8b4fe;
   background-color: #faf5ff;
-  resize: none;
+  resize: none;         /* not adjustable */
   overflow-y: auto;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
 }
 
-/* ===== Note Footer ===== Lab09: Edit/Delete actions and timestamp */
+/* ===== Note footer (timestamp above actions) ===== */
 .note-footer {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  margin-top: 12px;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  gap: 10px;
 }
 
 .note-footer .timestamp small {
   font-size: 0.85em;
   color: #6b7280;
   font-weight: 500;
-  text-align: left;
+  display: block;
 }
 
-/* ===== Actions ===== Lab09: Save/Delete buttons */
+/* actions row centered evenly */
 .note-footer .actions {
   display: flex;
-  justify-content: space-between;
   gap: 12px;
 }
 
@@ -186,7 +175,7 @@ html, body {
 }
 
 .note-footer .actions button {
-  background-color: #8b5cf6;
+  background-color: #8b5cf6; /* purple save */
   color: white;
   border: none;
 }
@@ -205,6 +194,14 @@ html, body {
   background-color: #dc2626;
 }
 
-/* ===== Link Styling ===== Lab06: Navigation links */
+/* ===== Links ===== */
 .links a {
-  font-size:
+  font-size: 0.95em;
+  color: #3b82f6;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}

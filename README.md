@@ -94,21 +94,25 @@ Search note
 Organized layout 
 
 🔐 Authentication System
-Email Login
-Email Sign-up 
-Session management
+1. Email Login
+2. Email Sign-up 
+3. Session management
 
 🎨 User Interface
-Dark / Light mode 
-Responsive design 
-Dynamic backgrounds
-Clean interface
+1. Dark / Light mode 
+2. Responsive design 
+3. Dynamic backgrounds
+4. Clean interface
 
 🔧 Technical Features
-RESTful API 
-Database integration( MongoDB with Mongoose ODM )
-Real-time updates 
-Error handling 
+1. RESTful API 
+2. Database integration( MongoDB with Mongoose ODM )
+3. Real-time updates 
+4. Error handling
+
+📁 Project Documentation
+
+#Project File Overview
 
 [🔗See here (Link)🔗](docs/projectFileOverview.md)
 
@@ -141,3 +145,26 @@ Error handling
 | jQuery            | Fast, small, feature-rich JavaScript library        |
 | Masonry           | Flexible, responsive, scalable grid system          |
 | Unsplash          | Photography API                                     |
+
+#Environment Variables
+
+Ensure all required environment variables are set in your deployment platform:
+
+Render.com, Heroku, Railway, or other cloud platforms
+
+MongoDB Atlas for database hosting
+
+Google Cloud Console for OAuth credentials
+
+📄 License
+This project is developed for educational purposes as part of the COMP S381F / S3810SEF course at HKMU.
+
+🙏 Acknowledgments
+
+HKMU - Server Side and Cloud Computing Course
+
+Render - Cloud hosting platform for live demo
+
+All team members - For collaboration and contribution
+
+

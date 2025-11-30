@@ -32,9 +32,9 @@ Result: Error message will be displayed
 
 ![signUp.png](img/signUp.png)
 
-To create you account
-1.Enter your Name, Email, password, and the confirm password to double check the password.
-2.Click "Sign up". (Send POST request `/api/signup`)
+To create you account,
+1. Enter your Name, Email, password, and the confirm password to double check the password.
+2. Click "Sign up". (Send POST request `/api/signup`)
 3. If the password matched and the user name is available, the system will save the registered user information to the database
 4. Redirect to the home page
 

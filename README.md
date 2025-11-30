@@ -73,7 +73,7 @@ Step 3: Environment Configuration
 Create a.env file in the root directory and configure your API keys:
 
    | Field |Description 
-                                    
+   |-------------------|-----------------------------------------------------|                                 
    | `MONGODB_URL`            | MongoDB backend for server data CURD access                                      |
    | `UNSPLASH_API_KEY`       | For accessing backdrop from Unsplash (Optional)                                  |
 
@@ -120,17 +120,17 @@ Error handling
 
 ### NPM Packages
 
-Package	      | Description
-
-`express`      | Web application framework for Node.js
-`mongoose`     | MongoDB object modeling for database `operations`
-`ejs`      | Embedded JavaScript templating for views
-`passport`      | Authentication middleware for Node.js
-`express-session`	| Session management middleware
-`bcryptjs`	| Password hashing and verification
-`dotenv`		| Environment variable management
-`node-fetch`	| HTTP request library for API calls
-`uuid`		| Unique identifier generation
+|Package	      | Description|
+|-------------------|-----------------------------------------------------|
+|`express`      | Web application framework for Node.js|
+|`mongoose`     | MongoDB object modeling for database `operations`|
+|`ejs`      | Embedded JavaScript templating for views|
+|`passport`      | Authentication middleware for Node.js|
+|`express-session`	| Session management middleware|
+|`bcryptjs`	| Password hashing and verification|
+|`dotenv`		| Environment variable management|
+|`node-fetch`	| HTTP request library for API calls|
+|`uuid`		| Unique identifier generation|
 
 ### CDNs
 

@@ -1,5 +1,5 @@
-// ===== Environment Variables ===== 
-// (AI generated addition, not part of labs — added dotenv for config management)
+// ===== Environment Variables =====
+// (Added for project deployment, not part of labs — dotenv for config management)
 require('dotenv').config();
 
 const express = require('express');              // Lab06: HTTP server with Express (same)
@@ -226,7 +226,7 @@ app.get('/background', async (req, res) => {
   }
 });
 
-// ===== RESTful Notes API (Lab09: RESTful CRUD services, adapted to be public/no auth) =====
+// ===== RESTful Notes API (no auth required) =====
 
 // READ all notes
 app.get('/api/notes', async (req, res) => {
@@ -245,3 +245,50 @@ app.get('/api/notes/:id', async (req, res) => {
     if (!note) return res.status(404).json({ error: "Note not found" });
     res.json(note);
   } catch (err) {
+    res.status(500).json({ error: "Failed to fetch note" });
+  }
+});
+
+// CREATE a new note
+app.post('/api/notes', async (req, res) => {
+  try {
+    const note = new Note({
+      noteUUID: new mongoose.Types.ObjectId().toString(),
+      noteContent: req.body.noteContent,
+      noteUserUUID: req.body.noteUserUUID || "anonymous"
+    });
+    await note.save();
+    res.status(201).json(note);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create note" });
+  }
+});
+
+// UPDATE a note by ID
+app.put('/api/notes/:id', async (req, res) => {
+  try {
+    const updated = await Note.findByIdAndUpdate(
+      req.params.id,
+      { noteContent: req.body.noteContent, noteLastModified: Date.now() },
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ error: "Note not found" });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update note" });
+  }
+});
+
+// DELETE a note by ID
+app.delete('/api/notes/:id', async (req, res) => {
+  try {
+    const deleted = await Note.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ error: "Note not found" });
+    res.json({ message: "Note deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete note" });
+  }
+});
+
+// ===== Start =====
+app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));

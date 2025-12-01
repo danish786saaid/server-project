@@ -1,4 +1,4 @@
-# Notable  Project information 
+# QuickNotes Project information 
 
 A full-stack, self-hostable note-taking application built with Node.js, Express, MongoDB, and EJS templating.
 
@@ -9,12 +9,12 @@ the Server Side and Cloud Computing course
 
 #Group   Group 31.
 
-[🔗Notable Demo🔗](https://server-project-14rn.onrender.com/)
+[🔗QuickNotes Demo🔗](https://server-project-14rn.onrender.com/)
 
 
 ## Collaborators
 
-13696301
+13696301 Saaid Danish
 
 14187424 Ching Man Chung
 

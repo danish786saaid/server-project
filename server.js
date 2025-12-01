@@ -155,30 +155,93 @@ app.get('/homepage', isLoggedIn, async (req, res) => {
 
 // Notes CRUD (UI) 
 // Lab09: CRUD services adapted to notes (same)
-app.post('/notes', isLoggedIn, async (req, res) => { ... });
-app.post('/notes/edit/:id', isLoggedIn, async (req, res) => { ... });
-app.get('/notes/delete/:id', isLoggedIn, async (req, res) => { ... });
+app.post('/notes', isLoggedIn, async (req, res) => {
+  try {
+    const currentUser = req.user || req.session.user;
+    const note = new Note({
+      noteUUID: new mongoose.Types.ObjectId().toString(),
+      noteContent: req.body.noteContent,
+      noteUserUUID: currentUser.userUUID
+    });
+    await note.save();
+    res.redirect('/homepage');
+  } catch (err) {
+    res.status(500).send("Failed to add note.");
+  }
+});
+
+app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
+  try {
+    await Note.findByIdAndUpdate(req.params.id, {
+      noteContent: req.body.noteContent,
+      noteLastModified: Date.now()
+    });
+    res.redirect('/homepage');
+  } catch (err) {
+    res.status(500).send("Failed to edit note.");
+  }
+});
+
+app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
+  try {
+    await Note.findByIdAndDelete(req.params.id);
+    res.redirect('/homepage');
+  } catch (err) {
+    res.status(500).send("Failed to delete note.");
+  }
+});
 
 // Logout 
 // Lab10: session clear (same)
-app.get('/logout', (req, res, next) => { ... });
+app.get('/logout', (req, res, next) => {
+  req.logout(err => {
+    if (err) return next(err);
+    req.session = null;
+    res.redirect('/login');
+  });
+});
 
 // Root route 
 // Lab06: GET redirect (same)
-app.get('/', (req, res) => { ... });
+app.get('/', (req, res) => {
+  if (req.isAuthenticated() || req.session.user) {
+    res.redirect('/homepage');
+  } else {
+    res.redirect('/login');
+  }
+});
 
 // Background route 
 // Lab08: RESTful service returning JSON (adapted to Unsplash API)
-app.get('/background', async (req, res) => { ... });
+app.get('/background', async (req, res) => {
+  try {
+    if (!process.env.UNSPLASH_API_KEY) {
+      return res.json({ imageUrl: '/images/default-bg.jpg' });
+    }
+    const response = await fetch(`https://api.unsplash.com/photos/random?query=landscape&client_id=${process.env.UNSPLASH_API_KEY}`);
+    const data = await response.json();
+    res.json({ imageUrl: data.urls.full });
+  } catch (err) {
+    res.json({ imageUrl: '/images/default-bg.jpg' });
+  }
+});
 
-// ===== RESTful Notes API (no auth required) ===== 
-// Lab09: RESTful CRUD services (adapted to be public/no auth)
-app.get('/api/notes', async (req, res) => { ... });
-app.get('/api/notes/:id', async (req, res) => { ... });
-app.post('/api/notes', async (req, res) => { ... });
-app.put('/api/notes/:id', async (req, res) => { ... });
-app.delete('/api/notes/:id', async (req, res) => { ... });
+// ===== RESTful Notes API (Lab09: RESTful CRUD services, adapted to be public/no auth) =====
 
-// ===== Start ===== 
-// Lab06: HTTP server listen (same)
-app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));
+// READ all notes
+app.get('/api/notes', async (req, res) => {
+  try {
+    const notes = await Note.find();
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch notes" });
+  }
+});
+
+// READ one note by ID
+app.get('/api/notes/:id', async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ error: "Note not found" });
+    res.json(note);
+  } catch (err) {

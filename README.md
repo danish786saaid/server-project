@@ -18,7 +18,7 @@ the Server Side and Cloud Computing course
 
 14187424 Ching Man Chung
 
-14084841
+14084841 Soriano Max Janwayne Sarmiento
 
 # 🛠️ System Requirements
 

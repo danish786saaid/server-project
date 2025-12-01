@@ -1,4 +1,5 @@
-// ===== Environment Variables ===== (AI generated addition for config management, not part of labs)
+// ===== Environment Variables ===== 
+// (AI generated addition, not part of labs — added dotenv for config management)
 require('dotenv').config();
 
 const express = require('express');              // Lab06: HTTP server with Express (same)
@@ -9,20 +10,22 @@ const passport = require('passport');            // Lab10: OAuth with Passport (
 const GoogleStrategy = require('passport-google-oauth20').Strategy; // Lab10: Google OAuth strategy (same)
 const path = require('path');                    // Lab07: Used for views/static (same)
 const bcrypt = require('bcryptjs');              // Lab07: Password hashing (same)
-const fetch = require('node-fetch');             // Lab08: RESTful background image fetch (adapted)
+const fetch = require('node-fetch');             // Lab08: RESTful background image fetch (adapted to Unsplash API)
 
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 8099;
 
-// ===== Views & static ===== (Lab07: Express + EJS templating, same)
+// ===== Views & static ===== 
+// Lab07: Express + EJS templating (same)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ===== Sessions ===== (Lab08: Cookie/session middleware, same)
+// ===== Sessions ===== 
+// Lab08: Cookie/session middleware (same)
 app.use(session({
   secret: process.env.SECRETKEY || 'SECRETKEY',
   resave: false,
@@ -30,16 +33,19 @@ app.use(session({
   cookie: { secure: false }
 }));
 
-// ===== MongoDB ===== (Lab05: MongoDB driver connection, same)
+// ===== MongoDB ===== 
+// Lab05: MongoDB driver connection (same)
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// ===== Models ===== (Lab07: Mongoose schema/models, same)
+// ===== Models ===== 
+// Lab07: Mongoose schema/models (same)
 const User = require('./models/User');
 const Note = require('./models/Note');
 
-// ===== Google OAuth ===== (Lab10: Passport OAuth strategy, same)
+// ===== Google OAuth ===== 
+// Lab10: Passport OAuth strategy (same)
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || "",
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
@@ -63,7 +69,8 @@ passport.use(new GoogleStrategy({
   }
 }));
 
-// ===== Passport session handling ===== (Lab10: serialize/deserialize user, same)
+// ===== Passport session handling ===== 
+// Lab10: serialize/deserialize user (same)
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
   try {
@@ -77,18 +84,21 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ===== Auth guard ===== (Lab10: Middleware isLoggedIn, same)
+// ===== Auth guard ===== 
+// Lab10: Middleware isLoggedIn (same)
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() || req.session.user) return next();
   res.redirect('/login');
 }
 
-// ===== Routes =====
-// Login & Signup pages (Lab06: GET routes, same)
+// ===== Routes ===== 
+// Login & Signup pages 
+// Lab06: GET routes (same)
 app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign up' }));
 
-// Signup (Lab07: bcrypt password hashing + MongoDB insert, same)
+// Signup 
+// Lab07: bcrypt password hashing + MongoDB insert (same)
 app.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -110,7 +120,8 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Login (Lab06: POST request handling, same)
+// Login 
+// Lab06: POST request handling (same)
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -127,39 +138,47 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Google login (Lab10: OAuth strategy, same)
+// Google login 
+// Lab10: OAuth strategy (same)
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', { successRedirect: '/homepage', failureRedirect: '/login' })
 );
 
-// Homepage (Lab07: EJS rendering with MongoDB data, same)
+// Homepage 
+// Lab07: EJS rendering with MongoDB data (same)
 app.get('/homepage', isLoggedIn, async (req, res) => {
   const currentUser = req.user || req.session.user;
   const notes = await Note.find({ noteUserUUID: currentUser.userUUID });
   res.render('homepage', { title: 'Homepage', user: currentUser, notes });
 });
 
-// Notes CRUD (UI) (Lab09: CRUD services adapted to notes, same)
+// Notes CRUD (UI) 
+// Lab09: CRUD services adapted to notes (same)
 app.post('/notes', isLoggedIn, async (req, res) => { ... });
 app.post('/notes/edit/:id', isLoggedIn, async (req, res) => { ... });
 app.get('/notes/delete/:id', isLoggedIn, async (req, res) => { ... });
 
-// Logout (Lab10: session clear, same)
+// Logout 
+// Lab10: session clear (same)
 app.get('/logout', (req, res, next) => { ... });
 
-// Root route (Lab06: GET redirect, same)
+// Root route 
+// Lab06: GET redirect (same)
 app.get('/', (req, res) => { ... });
 
-// Background route (Lab08: RESTful service returning JSON, adapted to Unsplash API)
+// Background route 
+// Lab08: RESTful service returning JSON (adapted to Unsplash API)
 app.get('/background', async (req, res) => { ... });
 
-// ===== RESTful Notes API (Lab09: RESTful CRUD services, adapted to be public/no auth) =====
+// ===== RESTful Notes API (no auth required) ===== 
+// Lab09: RESTful CRUD services (adapted to be public/no auth)
 app.get('/api/notes', async (req, res) => { ... });
 app.get('/api/notes/:id', async (req, res) => { ... });
 app.post('/api/notes', async (req, res) => { ... });
 app.put('/api/notes/:id', async (req, res) => { ... });
 app.delete('/api/notes/:id', async (req, res) => { ... });
 
-// ===== Start ===== (Lab06: HTTP server listen, same)
+// ===== Start ===== 
+// Lab06: HTTP server listen (same)
 app.listen(PORT, () => console.log(`🚀 App running at http://localhost:${PORT}`));

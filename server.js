@@ -211,20 +211,7 @@ app.get('/', (req, res) => {
   }
 });
 
-// Background route 
-// Lab08: RESTful service returning JSON (adapted to Unsplash API)
-app.get('/background', async (req, res) => {
-  try {
-    if (!process.env.UNSPLASH_API_KEY) {
-      return res.json({ imageUrl: '/images/default-bg.jpg' });
-    }
-    const response = await fetch(`https://api.unsplash.com/photos/random?query=landscape&client_id=${process.env.UNSPLASH_API_KEY}`);
-    const data = await response.json();
-    res.json({ imageUrl: data.urls.full });
-  } catch (err) {
-    res.json({ imageUrl: '/images/default-bg.jpg' });
-  }
-});
+
 
 // ===== RESTful Notes API (no auth required) =====
 

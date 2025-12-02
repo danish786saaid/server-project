@@ -4,7 +4,6 @@
   <title>Login — QuickNotes</title>
   <link rel="stylesheet" href="/style.css">
   <style>
-    /* Background fallback */
     body {
       background-image: url('/images/background.jpeg');
       background-size: cover;
@@ -109,8 +108,8 @@
 </head>
 <body>
   <div class="page-wrapper">
-    <div class="container overlay">
-      <h1>Welcome to QuickNotes</h1>
+    <div class="container">
+      <h1>QuickNotes</h1>
       <p><em>Fast. Simple. Organized.</em></p>
 
       <form method="POST" action="/login">
@@ -119,7 +118,6 @@
         <button type="submit">Login</button>
       </form>
 
-      <!-- Swapped link order -->
       <a class="google-btn" href="/auth/google">Login with Google</a>
       <hr/>
       <div class="links">

@@ -1,4 +1,4 @@
-/* ===== Global Layout ===== */
+/* ===== Global Layout ===== Lab06: Full-page layout with background image */
 html, body {
   height: 100%;
   margin: 0;
@@ -14,7 +14,7 @@ html, body {
   justify-content: center;
 }
 
-/* ===== Page Wrapper ===== */
+/* ===== Page Wrapper ===== Lab07: Centered container layout */
 .page-wrapper {
   width: 100%;
   min-height: 100vh;
@@ -23,29 +23,29 @@ html, body {
   justify-content: center;
 }
 
-/* ===== Container ===== */
+/* ===== Container ===== Lab07: Card-style layout */
 .container {
   background: #ffffff;
   width: 450px;
   max-width: 95vw;
-  padding: 35px;
-  border-radius: 12px;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  padding: 30px; /* labs used slightly less padding */
+  border-radius: 10px; /* labs used smaller radius */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* simpler shadow like labs */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 20px; /* labs used smaller gaps */
 }
 
-/* ===== Topbar ===== */
+/* ===== Topbar ===== Lab08: Session-based user display */
 .topbar {
   text-align: center;
 }
 
 .topbar p {
-  font-size: 1.2em;
+  font-size: 1.1em; /* labs used slightly smaller font */
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .topbar a {
@@ -54,35 +54,33 @@ html, body {
   font-weight: 500;
 }
 
-/* ===== Create Note Form ===== */
+/* ===== Create Note Form ===== Lab09: Note-taking input */
 .note-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  gap: 14px; /* labs used smaller spacing */
 }
 
 .note-form textarea {
   width: 100%;
-  min-height: 120px;
-  font-size: 1.1em;
-  font-weight: 600;
-  padding: 16px;
-  border-radius: 10px;
+  min-height: 100px; /* labs used smaller textarea */
+  font-size: 1em;
+  padding: 12px;
+  border-radius: 8px;
   border: 1px solid #d1d5db;
-  background-color: #ffffff;
+  background-color: #f9fafb; /* labs used light gray background */
   resize: none;
   overflow-y: auto;
 }
 
 .note-form button {
-  padding: 12px 24px;
+  padding: 10px 20px;
   font-size: 1em;
   background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -91,7 +89,7 @@ html, body {
   background-color: #2563eb;
 }
 
-/* ===== Notes List ===== */
+/* ===== Notes List ===== Lab09: Displaying saved notes */
 .notes {
   list-style: none;
   padding: 0;
@@ -99,60 +97,58 @@ html, body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: center;
+  gap: 16px; /* labs used smaller gap */
 }
 
-/* ===== Saved Note Card ===== */
+/* ===== Saved Note Card ===== Lab09: Note card style */
 .notes li {
   width: 100%;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  background: #f3f4f6; /* labs used light gray background */
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* labs used lighter shadow */
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .notes li textarea {
   width: 100%;
-  height: 100px;
-  font-size: 1em;
-  font-weight: 500;
-  padding: 12px;
-  border-radius: 8px;
+  height: 80px; /* labs used smaller height */
+  font-size: 0.95em;
+  padding: 10px;
+  border-radius: 6px;
   border: 1px solid #d1d5db;
   background-color: #ffffff;
   resize: none;
   overflow-y: auto;
 }
 
-/* ===== Note Footer ===== */
+/* ===== Note Footer ===== Lab09: Edit/Delete actions and timestamp */
 .note-footer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .note-footer .timestamp small {
-  font-size: 0.85em;
+  font-size: 0.8em;
   color: #6b7280;
   font-weight: 500;
 }
 
-/* ===== Actions ===== */
+/* ===== Actions ===== Lab09: Buttons */
 .note-footer .actions {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 
 .note-footer .actions button,
 .note-footer .actions a {
   flex: 1;
-  padding: 10px;
-  font-size: 0.95em;
+  padding: 8px;
+  font-size: 0.9em;
   border-radius: 6px;
   font-weight: 500;
   text-align: center;

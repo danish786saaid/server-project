@@ -1,9 +1,8 @@
-/* ===== Global Layout ===== Lab06: Background image + centered page */
 html, body {
   height: 100%;
   margin: 0;
   font-family: 'Segoe UI', Roboto, sans-serif;
-  background-image: url('/images/background.jpeg'); /* lab used static background */
+  background-image: url('/images/background.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -14,7 +13,6 @@ html, body {
   justify-content: center;
 }
 
-/* ===== Page Wrapper ===== Lab07: Center everything on screen */
 .page-wrapper {
   width: 100%;
   min-height: 100vh;
@@ -23,21 +21,19 @@ html, body {
   justify-content: center;
 }
 
-/* ===== Container ===== Lab07: White card box for content */
 .container {
   background: #ffffff;
-  width: 450px;              /* fixed width like lab */
-  max-width: 95vw;           /* responsive on smaller screens */
-  padding: 30px;             /* labs used ~28px, close enough */
-  border-radius: 10px;       /* rounded corners */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* simple shadow */
+  width: 450px;
+  max-width: 95vw;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;                 /* spacing between elements */
+  gap: 20px;
 }
 
-/* ===== Topbar ===== Lab08: Show user info or links */
 .topbar {
   text-align: center;
 }
@@ -50,11 +46,10 @@ html, body {
 
 .topbar a {
   text-decoration: none;
-  color: #3b82f6;            /* lab blue */
+  color: #3b82f6;
   font-weight: 500;
 }
 
-/* ===== Create Note Form ===== Lab09: Input for notes */
 .note-form {
   width: 100%;
   display: flex;
@@ -64,12 +59,12 @@ html, body {
 
 .note-form textarea {
   width: 100%;
-  min-height: 100px;         /* labs used smaller textarea */
+  min-height: 100px;
   font-size: 1em;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  background-color: #f9fafb; /* light gray like lab */
+  background-color: #f9fafb;
   resize: none;
   overflow-y: auto;
 }
@@ -77,7 +72,7 @@ html, body {
 .note-form button {
   padding: 10px 20px;
   font-size: 1em;
-  background-color: #3b82f6; /* lab blue */
+  background-color: #3b82f6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -86,29 +81,27 @@ html, body {
 }
 
 .note-form button:hover {
-  background-color: #2563eb; /* darker blue on hover */
+  background-color: #2563eb;
 }
 
-/* ===== Notes List ===== Lab09: Show saved notes */
 .notes {
   list-style: none;
   padding: 0;
-  margin: 0 auto;            /* center notes inside container */
+  margin: 0 auto;
   width: 100%;
-  max-width: 400px;          /* keep notes smaller so they stay inside box */
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: center;
 }
 
-/* ===== Saved Note Card ===== Lab09: Each note card */
 .notes li {
   width: 100%;
-  background: #f3f4f6;       /* lab gray background */
+  background: #f3f4f6;
   padding: 16px;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* subtle shadow */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -116,7 +109,7 @@ html, body {
 
 .notes li textarea {
   width: 100%;
-  height: 80px;              /* smaller height like lab */
+  height: 80px;
   font-size: 0.95em;
   padding: 10px;
   border-radius: 6px;
@@ -126,7 +119,6 @@ html, body {
   overflow-y: auto;
 }
 
-/* ===== Note Footer ===== Lab09: Timestamp + actions */
 .note-footer {
   display: flex;
   flex-direction: column;
@@ -139,7 +131,6 @@ html, body {
   font-weight: 500;
 }
 
-/* ===== Actions ===== Lab09: Edit/Delete buttons */
 .note-footer .actions {
   display: flex;
   justify-content: space-between;
@@ -169,11 +160,11 @@ html, body {
 }
 
 .note-footer .actions a {
-  background-color: #ef4444; /* red delete */
+  background-color: #ef4444;
   color: white;
   text-decoration: none;
 }
 
 .note-footer .actions a:hover {
-  background-color: #dc2626; /* darker red on hover */
+  background-color: #dc2626;
 }

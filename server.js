@@ -136,7 +136,7 @@ app.post('/notes', isLoggedIn, async (req, res) => {
     await note.save();
     res.redirect('/homepage');
   } catch (err) {
-    res.status(500).send("Failed to add note.");
+    res.status(500).send("Note not added!");
   }
 });
 

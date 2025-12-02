@@ -34,6 +34,7 @@ the Server Side and Cloud Computing course
 ### API Services Required
 
 - MongoDB API key Database connection string for data storage
+- Google OAuth API key
 - Unsplash API Access key (Optional) 
 - High network bandwidth (If you want to host your own instance)
 
@@ -73,7 +74,11 @@ Step 3: Environment Configuration
 Create a.env file in the root directory and configure your API keys:
 
    | Field |Description 
-   |-------------------|-----------------------------------------------------|                                 
+   |-------------------|-----------------------------------------------------|  
+
+   | `GOOGLE_CLIENT_ID`          | Google Cloud OAuth Application Client ID                                         |
+   | `GOOGLE_CLIENT_SECRET`      | Google Cloud OAuth Application Secret Key                                        |
+   | `GOOGLE_CLOUD_CALLBACK_URL` | Callback URL to redirect with after successful / failure of OAuth authentication |
    | `MONGODB_URL`            | MongoDB backend for server data CURD access                                      |
    | `UNSPLASH_API_KEY`       | For accessing backdrop from Unsplash (Optional)                                  |
 
@@ -99,16 +104,16 @@ Organized layout
 3. Session management
 
 🎨 User Interface
-1. Dark / Light mode 
-2. Responsive design 
-3. Dynamic backgrounds
-4. Clean interface
+1. Responsive design 
+2. Dynamic backgrounds
+3. Clean interface
 
 🔧 Technical Features
 1. RESTful API 
 2. Database integration( MongoDB with Mongoose ODM )
-3. Real-time updates 
-4. Error handling
+3. Google OAuth Login / Sign-up
+4. Real-time updates 
+5. Error handling
 
 📁 Project Documentation
 
@@ -130,6 +135,7 @@ Organized layout
 |`mongoose`     | MongoDB object modeling for database `operations`|
 |`ejs`      | Embedded JavaScript templating for views|
 |`passport`      | Authentication middleware for Node.js|
+| `passport-google-oauth20` | Google OAuth 2.0 Strategy for Passport |
 |`express-session`	| Session management middleware|
 |`bcryptjs`	| Password hashing and verification|
 |`dotenv`		| Environment variable management|

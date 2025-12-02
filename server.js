@@ -28,7 +28,7 @@ app.use(session({
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => console.error("❌ MongoDB connection error:", err));
+  .catch(err => console.error("❌ Couldn't connect to MongoDB", err));
 
 const User = require('./models/User');
 const Note = require('./models/Note');
@@ -81,7 +81,7 @@ app.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
     let existingUser = await User.findOne({ userEmail: email });
-    if (existingUser) return res.send("User already exists. Please login.");
+    if (existingUser) return res.send("You have a QuickNotes Account! Please login!");
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -94,7 +94,7 @@ app.post('/signup', async (req, res) => {
     await newUser.save();
     res.redirect('/login');
   } catch (err) {
-    res.status(500).send("Signup failed.");
+    res.status(500).send("Couldn't Signup!");
   }
 });
 
@@ -102,10 +102,10 @@ app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ userEmail: email });
-    if (!user) return res.send("No user found. Please sign up.");
+    if (!user) return res.send("No QuickNotes Account found. Create new QuickNotes Account.");
 
     const match = await bcrypt.compare(password, user.userPassword);
-    if (!match) return res.send("Invalid password.");
+    if (!match) return res.send("Wrong password.");
 
     req.session.user = user;
     res.redirect('/homepage');
@@ -136,7 +136,7 @@ app.post('/notes', isLoggedIn, async (req, res) => {
     await note.save();
     res.redirect('/homepage');
   } catch (err) {
-    res.status(500).send("Note not added!");
+    res.status(500).send("QuickNote not added!");
   }
 });
 
@@ -148,7 +148,7 @@ app.post('/notes/edit/:id', isLoggedIn, async (req, res) => {
     });
     res.redirect('/homepage');
   } catch (err) {
-    res.status(500).send("Failed to edit note.");
+    res.status(500).send("Couldn't edit QuickNote.");
   }
 });
 
@@ -157,7 +157,7 @@ app.get('/notes/delete/:id', isLoggedIn, async (req, res) => {
     await Note.findByIdAndDelete(req.params.id);
     res.redirect('/homepage');
   } catch (err) {
-    res.status(500).send("Failed to delete note.");
+    res.status(500).send("Couldn't delete QuickNote.");
   }
 });
 
@@ -184,17 +184,17 @@ app.get('/api/notes', async (req, res) => {
     const notes = await Note.find();
     res.json(notes);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch notes" });
+    res.status(500).json({ error: "Couldn't fetch QuickNotes" });
   }
 });
 
 app.get('/api/notes/:id', async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
-    if (!note) return res.status(404).json({ error: "Note not found" });
+    if (!note) return res.status(404).json({ error: "QuickNote not found" });
     res.json(note);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch note" });
+    res.status(500).json({ error: "Couldn't fetch QuickNote" });
   }
 });
 
@@ -219,20 +219,20 @@ app.put('/api/notes/:id', async (req, res) => {
       { noteContent: req.body.noteContent, noteLastModified: Date.now() },
       { new: true }
     );
-    if (!updated) return res.status(404).json({ error: "Note not found" });
+    if (!updated) return res.status(404).json({ error: "QuickNote not found" });
     res.json(updated);
   } catch (err) {
-    res.status(500).json({ error: "Failed to update note" });
+    res.status(500).json({ error: "Couldn't update QuickNotes" });
   }
 });
 
 app.delete('/api/notes/:id', async (req, res) => {
   try {
     const deleted = await Note.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ error: "Note not found" });
-    res.json({ message: "Note deleted" });
+    if (!deleted) return res.status(404).json({ error: "QuickNote not found" });
+    res.json({ message: "QuickNote deleted" });
   } catch (err) {
-    res.status(500).json({ error: "Failed to delete note" });
+    res.status(500).json({ error: "Couldn't delete QuickNote" });
   }
 });
 

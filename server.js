@@ -10,7 +10,6 @@ const passport = require('passport');            // Lab10: OAuth with Passport (
 const GoogleStrategy = require('passport-google-oauth20').Strategy; // Lab10: Google OAuth strategy (same)
 const path = require('path');                    // Lab07: Used for views/static (same)
 const bcrypt = require('bcryptjs');              // Lab07: Password hashing (same)
-const fetch = require('node-fetch');             // Lab08: RESTful background image fetch (adapted to Unsplash API)
 
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI;

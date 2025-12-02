@@ -2,33 +2,36 @@
 <html>
 <head>
   <title><%= title %></title>
+  <!-- link to our CSS file -->
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="page-wrapper">
     <div class="container">
       
-      <!-- Topbar -->
+      <!-- Top bar: shows user info and logout -->
       <div class="topbar">
         <p>Welcome, <%= user ? user.userName : "Guest" %></p>
         <a href="/logout">Logout</a>
       </div>
 
-      <!-- Create note -->
+      <!-- Form to create a new note -->
       <form method="POST" action="/notes" class="note-form">
         <textarea name="noteContent" placeholder="Write a note..." required></textarea>
         <button type="submit">Add note</button>
       </form>
 
-      <!-- Notes list -->
+      <!-- List of notes -->
       <% if (notes && notes.length) { %>
         <ul class="notes">
           <% notes.forEach(function(note) { %>
             <li>
+              <!-- each note can be edited or deleted -->
               <form method="POST" action="/notes/edit/<%= note._id %>">
                 <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
 
                 <div class="note-footer">
+                  <!-- timestamp shows last modified -->
                   <div class="timestamp">
                     <small>
                       Last modified:
@@ -37,6 +40,7 @@
                            : "N/A" %>
                     </small>
                   </div>
+                  <!-- actions appear when textarea is focused -->
                   <div class="actions" style="display: none;">
                     <button type="submit">Save</button>
                     <a href="/notes/delete/<%= note._id %>">Delete</a>
@@ -54,15 +58,7 @@
   </div>
 
   <script>
-    fetch('/background')
-      .then(res => res.json())
-      .then(data => {
-        if (data.imageUrl && data.imageUrl !== '/images/default-bg.jpg') {
-          document.body.style.backgroundImage = `url('${data.imageUrl}')`;
-        }
-      })
-      .catch(err => console.error("Background fetch failed:", err));
-
+    // show edit/delete buttons when user clicks inside a note
     function showActions(textarea) {
       const footer = textarea.nextElementSibling;
       const actions = footer?.querySelector('.actions');

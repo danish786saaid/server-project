@@ -2,36 +2,29 @@
 <html>
 <head>
   <title><%= title %></title>
-  <!-- link to our CSS file -->
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="page-wrapper">
     <div class="container">
       
-      <!-- Top bar: shows user info and logout -->
       <div class="topbar">
         <p>Welcome, <%= user ? user.userName : "Guest" %></p>
         <a href="/logout">Logout</a>
       </div>
 
-      <!-- Form to create a new note -->
       <form method="POST" action="/notes" class="note-form">
         <textarea name="noteContent" placeholder="Write a note..." required></textarea>
         <button type="submit">Add note</button>
       </form>
 
-      <!-- List of notes -->
       <% if (notes && notes.length) { %>
         <ul class="notes">
           <% notes.forEach(function(note) { %>
             <li>
-              <!-- each note can be edited or deleted -->
               <form method="POST" action="/notes/edit/<%= note._id %>">
-                <textarea name="noteContent" onfocus="showActions(this)"><%= note.noteContent %></textarea>
-
+                <textarea name="noteContent"><%= note.noteContent %></textarea>
                 <div class="note-footer">
-                  <!-- timestamp shows last modified -->
                   <div class="timestamp">
                     <small>
                       Last modified:
@@ -40,8 +33,7 @@
                            : "N/A" %>
                     </small>
                   </div>
-                  <!-- actions appear when textarea is focused -->
-                  <div class="actions" style="display: none;">
+                  <div class="actions">
                     <button type="submit">Save</button>
                     <a href="/notes/delete/<%= note._id %>">Delete</a>
                   </div>
@@ -56,14 +48,5 @@
 
     </div>
   </div>
-
-  <script>
-    // show edit/delete buttons when user clicks inside a note
-    function showActions(textarea) {
-      const footer = textarea.nextElementSibling;
-      const actions = footer?.querySelector('.actions');
-      if (actions) actions.style.display = 'flex';
-    }
-  </script>
 </body>
 </html>
